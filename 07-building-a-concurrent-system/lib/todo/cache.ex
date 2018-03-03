@@ -14,7 +14,7 @@ defmodule Todo.Cache do
       # Server does not exist, start a new server
       :error ->
         # {:ok, new_server} = Todo.Server.start
-        new_server = Todo.Server.start
+        new_server = Todo.Server.start(todo_list_name)
 
         {
           :reply,
@@ -25,12 +25,14 @@ defmodule Todo.Cache do
   end
 
   def start do
-    GenServer.start(__MODULE__, nil,
-      name: :cache_server
+    GenServer.start(
+      __MODULE__, 
+      nil
     )
+      # name: :cache_server
   end
 
-  def server_process(todo_list_name) do
-    GenServer.call(:cache_server, {:server_process, todo_list_name})
+  def server_process(pid, todo_list_name) do
+    GenServer.call(pid, {:server_process, todo_list_name})
   end
 end
