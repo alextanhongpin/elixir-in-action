@@ -1,9 +1,9 @@
 defmodule KeyValueStore do
   use GenServer
 
-  def init(_) do
+  def init(initial_state) do
     :timer.send_interval(5000, :cleanup)
-    {:ok, Map.new}
+    {:ok, initial_state}
   end
 
   def handle_cast({:put, key, value}, state) do
@@ -15,7 +15,8 @@ defmodule KeyValueStore do
   end
 
   def start do
-    GenServer.start(KeyValueStore, nil)
+    initial_state = Map.new
+    GenServer.start(KeyValueStore, initial_state)
   end
 
   def put(pid, key, value) do
