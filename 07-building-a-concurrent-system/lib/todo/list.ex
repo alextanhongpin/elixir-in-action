@@ -13,6 +13,10 @@ defmodule Todo.List do
     )
   end
 
+  def size(todo_list) do
+    Map.size(todo_list.entries)
+  end
+
   def add_entry(
     %Todo.List{entries: entries, auto_id: auto_id} = todo_list,
     entry
